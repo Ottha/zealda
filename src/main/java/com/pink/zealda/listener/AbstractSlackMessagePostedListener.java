@@ -2,7 +2,6 @@ package com.pink.zealda.listener;
 
 import com.pink.zealda.model.Legend;
 import com.pink.zealda.service.LegendService;
-import com.pink.zealda.service.QuestService;
 import com.pink.zealda.service.SlackService;
 import com.ullink.slack.simpleslackapi.SlackPersona;
 import com.ullink.slack.simpleslackapi.SlackSession;
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
-import java.util.stream.Collectors;
 
 /**
  * Created by akraf on 12/14/16.
@@ -48,9 +46,9 @@ public abstract class AbstractSlackMessagePostedListener implements SlackMessage
             legendService.createLegendByName(legendName);
         }
 
-        onEventInternal(event, session);
+        onEventInternal(event, session, legend);
     }
 
-    abstract void onEventInternal(SlackMessagePosted event, SlackSession session);
+    abstract void onEventInternal(SlackMessagePosted event, SlackSession session, Legend legend);
 
 }

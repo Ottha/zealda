@@ -35,7 +35,8 @@ public class LegendListener implements SlackGroupJoinedListener {
         event.getSlackChannel().getMembers()
             .stream()
             .map(m -> m.getUserName())
-            .filter(m -> !legends.contains(m)).forEach(legendService::createLegendByName);
+            .filter(m -> !legends.contains(m))
+            .forEach(legendService::createLegendByName);
 
         session.sendMessage(event.getSlackChannel(), "This is your chance to become a legend!", null);
 
