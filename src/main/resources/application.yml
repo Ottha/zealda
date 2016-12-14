@@ -5,7 +5,7 @@ slack:
 
 logging:
   level:
-    com.recursivechaos: DEBUG
+    com.pink: DEBUG
     com.ullink.slack: INFO
 
 jobdetails:
