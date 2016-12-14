@@ -1,0 +1,15 @@
+slack:
+  bot:
+    key: xoxb-116537201891-0X5DkhFNwC2LUjWueTruuMDt
+    channel: the_legend_of_zealda
+    name: zealda
+
+logging:
+  level:
+    com.recursivechaos: DEBUG
+    com.ullink.slack: INFO
+
+jobdetails:
+  standup:
+    greeting: "Standup starts in 5 minutes."
+    time: "0 25 9 ? * MON,TUE,WED,THU,FRI *"

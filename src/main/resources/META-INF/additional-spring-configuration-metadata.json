@@ -1,0 +1,44 @@
+{
+    "properties": [
+        {
+            "name": "slack.bot.apikey",
+            "type": "java.lang.String",
+            "description": "Your Slack API Key"
+        },
+        {
+            "name": "slack.bot.channel",
+            "type": "java.lang.String",
+            "description": "The channel you want your Slack bot to post in"
+        },
+        {
+            "name": "slack.bot.name",
+            "type": "java.lang.String",
+            "description": "The name you configured slack for your bot"
+        },
+        {
+            "name": "jobdetail.standup.greeting",
+            "type": "java.lang.String",
+            "description": "Your morning greeting"
+        },
+        {
+            "name": "jobdetail.standup.time",
+            "type": "java.lang.String",
+            "description": "Cron expression providing standup time"
+        },
+        {
+            "name": "jenkins.server",
+            "type": "java.lang.String",
+            "description": "Server URL"
+        },
+        {
+            "name": "jenkins.username",
+            "type": "java.lang.String",
+            "description": "Jenkins username"
+        },
+        {
+            "name": "jenkins.password",
+            "type": "java.lang.String",
+            "description": "Jenkins password"
+        }
+    ]
+}
