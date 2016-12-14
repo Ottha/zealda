@@ -30,7 +30,6 @@ public class QuestService {
     }
 
     public void initQuests() {
-        questRepository.deleteAll();
         storeQuestFilesInDB();
     }
 
@@ -45,7 +44,10 @@ public class QuestService {
 
     private void saveQuests(File file)  {
         try {
-            questRepository.save(objectMapper.readValue(file, Quest.class));
+            Quest quest = objectMapper.readValue(file, Quest.class);
+            if (questRepository.findByName(quest.getName()) == null) {
+                questRepository.save(quest);
+            }
         } catch (IOException e) {
             LOG.error("Could not read file because of: ",e);
         }
