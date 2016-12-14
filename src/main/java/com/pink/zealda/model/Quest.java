@@ -16,6 +16,9 @@ public class Quest {
     private boolean repeatable;
     private long timeframeInMinutes;
 
+    public Quest() {
+    }
+
     public Quest(String name) {
         this.name = name;
     }
