@@ -3,6 +3,7 @@ package com.pink.zealda.listener;
 import com.pink.zealda.model.Legend;
 import com.pink.zealda.model.Quest;
 import com.pink.zealda.model.QuestOfLegend;
+import com.pink.zealda.service.QuestOfLegendService;
 import com.pink.zealda.service.QuestService;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
@@ -22,6 +23,9 @@ public class QuestListener extends AbstractSlackMessagePostedListener{
 
     @Autowired
     QuestService questService;
+
+    @Autowired
+    QuestOfLegendService questOfLegendService;
 
     @Override
     public void onEventInternal(SlackMessagePosted event, SlackSession session, Legend legend) {
@@ -46,6 +50,10 @@ public class QuestListener extends AbstractSlackMessagePostedListener{
             } else {
                 session.sendMessage(event.getChannel(), "@" + userName + " Thee could not find the Quest foreign tongue ", null);
             }
+        }
+
+        if (normalizedMessage.contains("ASSIGN") && normalizedMessage.contains("ALL")) {
+            questOfLegendService.assignQuestToRandomLegend();
         }
 
 

@@ -1,5 +1,7 @@
 package com.pink.zealda.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.List;
@@ -7,7 +9,11 @@ import java.util.List;
 /**
  * Created by akraf on 12/14/16.
  */
+@CompoundIndex(name = "questOfLegend", def = "{'legendId': 1, 'quest': 1}")
 public class QuestOfLegend {
+
+    @Id
+    private String id;
 
     @DBRef
     private Legend legendId;

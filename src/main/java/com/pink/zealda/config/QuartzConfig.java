@@ -1,7 +1,7 @@
 package com.pink.zealda.config;
 
-import com.pink.zealda.properties.QuartzProperties;
-import com.pink.zealda.schedule.StandupJob;
+import com.pink.zealda.properties.QuestAssignmentProperties;
+import com.pink.zealda.schedule.QuestAssingmentJob;
 import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
@@ -25,41 +25,28 @@ public class QuartzConfig {
     private ApplicationContext applicationContext;
 
     @Autowired
-    QuartzProperties quartzProperties;
+    QuestAssignmentProperties questAssignmentProperties;
 
     @Bean
     public JobDetailFactoryBean jobDetailFactoryBean() {
         JobDetailFactoryBean factoryBean = new JobDetailFactoryBean();
-        factoryBean.setJobClass(StandupJob.class);
+        factoryBean.setJobClass(QuestAssingmentJob.class);
         JobDataMap map = new JobDataMap();
-        map.put("message", quartzProperties.greeting);
+        map.put("message", questAssignmentProperties.defaultMessage);
         factoryBean.setJobDataMap(map);
         return factoryBean;
     }
 
-    @Bean(name = "standupJobTrigger")
-    public CronTriggerFactoryBean standupJobTrigger(JobDetail jobDetail) {
+
+    @Bean(name = "questAssignmentJobTrigger")
+    public CronTriggerFactoryBean questAssignmentJobTrigger(JobDetail jobDetail) {
         return trigger(jobDetail);
     }
 
     @Bean
-    public SchedulerFactoryBean standupSchedulerFactoryBean(@Qualifier("standupJobTrigger") Trigger standupJobTrigger) {
-        return schedulerFactoryBean(standupJobTrigger);
+    public SchedulerFactoryBean questAssignmentSchedulerFactoryBean(@Qualifier("questAssignmentJobTrigger") Trigger questAssignmentJobTrigger) {
+        return schedulerFactoryBean(questAssignmentJobTrigger);
     }
-
-
-    @Bean(name = "questTrigger")
-    public CronTriggerFactoryBean questTrigger(JobDetail jobDetail) {
-        return trigger(jobDetail);
-    }
-
-    @Bean
-    public SchedulerFactoryBean questSchedulerFactoryBean(@Qualifier("questTrigger") Trigger questTrigger) {
-        return schedulerFactoryBean(questTrigger);
-    }
-
-
-
 
     private CronTriggerFactoryBean trigger(JobDetail jobDetail) {
         CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
@@ -69,7 +56,7 @@ public class QuartzConfig {
     }
 
     private String createCronExpression(JobDetail jobDetail) {
-        return quartzProperties.time;
+        return questAssignmentProperties.time;
     }
 
 

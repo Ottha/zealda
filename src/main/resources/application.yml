@@ -9,6 +9,7 @@ logging:
     com.ullink.slack: INFO
 
 jobdetails:
-  standup:
-    greeting: "Standup starts in 5 minutes."
-    time: "0 25 9 ? * MON,TUE,WED,THU,FRI *"
+  quest:
+    assignment:
+      defaultMessage: "Thou have a new quest to accomplish."
+      time: "10 * * ? * MON,TUE,WED,THU,FRI *"

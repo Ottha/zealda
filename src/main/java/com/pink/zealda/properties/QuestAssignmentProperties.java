@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "jobdetails.quest")
-public class QuartzProperties {
+@ConfigurationProperties(prefix = "jobdetails.quest.assignment")
+public class QuestAssignmentProperties {
 
-    public String greeting;
+    public String defaultMessage;
     public String time;
 
 }

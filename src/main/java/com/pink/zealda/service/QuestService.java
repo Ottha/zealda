@@ -65,6 +65,7 @@ public class QuestService {
     public QuestOfLegend assignQuestToLegend(Quest quest, Legend legend) {
         QuestOfLegend questOfLegend = new QuestOfLegend();
         questOfLegend.setLegendId(legend);
+
         questOfLegend.setQuest(quest);
         return questOfLegendRepository.save(questOfLegend);
     }

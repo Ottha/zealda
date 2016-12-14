@@ -24,4 +24,8 @@ public class LegendService {
     public List<Legend> findAll() {
         return legendRepository.findAll();
     }
+
+    public void deleteLegends(List<Legend> legends) {
+        legendRepository.delete(legends);
+    }
 }

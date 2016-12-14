@@ -1,10 +1,12 @@
 package com.pink.zealda.listener;
 
+import com.pink.zealda.model.Legend;
 import com.pink.zealda.service.LegendService;
 import com.ullink.slack.simpleslackapi.SlackSession;
-import com.ullink.slack.simpleslackapi.events.SlackChannelJoined;
+import com.ullink.slack.simpleslackapi.events.SlackChannelLeft;
 import com.ullink.slack.simpleslackapi.events.SlackGroupJoined;
 import com.ullink.slack.simpleslackapi.listeners.SlackChannelJoinedListener;
+import com.ullink.slack.simpleslackapi.listeners.SlackChannelLeftListener;
 import com.ullink.slack.simpleslackapi.listeners.SlackGroupJoinedListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +18,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class LegendListener implements SlackGroupJoinedListener {
+public class LegendLeftListener implements SlackChannelLeftListener {
 
-    private final Logger log = LoggerFactory.getLogger(LegendListener.class);
+    private final Logger log = LoggerFactory.getLogger(LegendLeftListener.class);
 
     @Autowired
     LegendService legendService;
@@ -27,20 +29,18 @@ public class LegendListener implements SlackGroupJoinedListener {
     String channel;
 
     @Override
-    public void onEvent(SlackGroupJoined event, SlackSession session) {
+    public void onEvent(SlackChannelLeft event, SlackSession session) {
         if (!event.getSlackChannel().getName().equals(channel)) {
             return;
         }
 
-        List<String> legends = legendService.findAll().stream().map(l -> l.getName()).collect(Collectors.toList());
-
-        event.getSlackChannel().getMembers()
+        List<String> membersOfChannel = event.getSlackChannel().getMembers()
             .stream()
-            .map(m -> m.getUserName())
-            .filter(m -> !legends.contains(m))
-            .forEach(legendService::createLegendByName);
+            .map(m -> m.getUserName()).collect(Collectors.toList());
 
-        session.sendMessage(event.getSlackChannel(), "This is your chance to become a legend!", null);
+        List<Legend> legends = legendService.findAll().stream().filter(legend -> !membersOfChannel.contains(legend.getName())).collect(Collectors.toList());
+
+        legendService.deleteLegends(legends);
 
     }
 }

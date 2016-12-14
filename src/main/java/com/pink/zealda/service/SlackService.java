@@ -38,6 +38,16 @@ public class SlackService {
     }
 
     /**
+     * Sends a message to the provided channel
+     *
+     * @param myMessage    your message
+     * @param slackUser slackUser to send
+     */
+    public void sendMessageToUser(String myMessage, String slackUser) {
+        slackSession.sendMessageToUser(slackUser, myMessage, null);
+    }
+
+    /**
      * Returns the bot that matches the property provided in configuration
      *
      * @return SlackPersona of bot
