@@ -13,22 +13,13 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 @Component
-public class HelloListener implements SlackMessagePostedListener {
+public class HelloListener extends AbstractSlackMessagePostedListener {
 
     private final Logger log = LoggerFactory.getLogger(HelloListener.class);
 
-    @Autowired
-    SlackService slackService;
-
-    private SlackPersona bot;
-
-    @PostConstruct
-    private void setBotName() {
-        bot = slackService.getBot();
-    }
 
     @Override
-    public void onEvent(SlackMessagePosted event, SlackSession session) {
+    public void onEventInternal(SlackMessagePosted event, SlackSession session) {
         log.debug("Message Posted: '{}'", event.getMessageContent().toUpperCase());
         if (event.getMessageContent().trim().toUpperCase().contains("HELLO <@" + bot.getId() + ">")) {
             session.sendMessage(event.getChannel(), " Hello " + event.getSender().getUserName() + ". Number 5 is alive. :robot_face:", null);

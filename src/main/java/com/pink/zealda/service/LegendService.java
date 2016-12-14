@@ -18,5 +18,9 @@ public class LegendService {
         return legendRepository.findByName(name);
     }
 
+    public Legend createLegendByName(String legendName) {
+        return legendRepository.save(new Legend(legendName));
+    }
+
 
 }

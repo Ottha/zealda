@@ -2,12 +2,14 @@ package com.pink.zealda.model;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public class Legend {
 
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private String name;
     private long currentXp;
     private int level;

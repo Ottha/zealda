@@ -1,5 +1,7 @@
 package com.pink.zealda.listener;
 
+import com.pink.zealda.model.Legend;
+import com.pink.zealda.service.LegendService;
 import com.pink.zealda.service.QuestService;
 import com.pink.zealda.service.SlackService;
 import com.ullink.slack.simpleslackapi.SlackPersona;
@@ -9,31 +11,46 @@ import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-@Component
-public class QuestListener extends AbstractSlackMessagePostedListener{
+/**
+ * Created by akraf on 12/14/16.
+ */
+public abstract class AbstractSlackMessagePostedListener implements SlackMessagePostedListener {
 
     private final Logger log = LoggerFactory.getLogger(QuestListener.class);
 
     @Autowired
-    QuestService questService;
+    SlackService slackService;
+
+    @Autowired
+    LegendService legendService;
+
+    protected SlackPersona bot;
+
+    @PostConstruct
+    private void setBotName() {
+        bot = slackService.getBot();
+    }
 
     @Override
-    public void onEventInternal(SlackMessagePosted event, SlackSession session) {
+    public void onEvent(SlackMessagePosted event, SlackSession session) {
         log.debug("Message Posted: '{}'", event.getMessageContent().toUpperCase());
         if (event.getSender().getId().equals(bot.getId())) {
             return;
         }
-        String normalizedMessage = event.getMessageContent().trim().toUpperCase();
-        if (normalizedMessage.contains("QUEST") && normalizedMessage.contains("ALL")) {
-            session.sendMessage(event.getChannel(), " Hello " + event.getSender().getUserName() + ". Quests to challenge thee legends are:" + questService.getAllQuests().stream().map(quest -> quest.getName()).collect(Collectors.joining(", ", " :crossed_swords: ", " :crossed_swords: ")), null);
+
+        String legendName = event.getSender().getUserName();
+        Legend legend = legendService.findByName(legendName);
+        if (legend == null) {
+            legendService.createLegendByName(legendName);
         }
 
+        onEventInternal(event, session);
     }
+
+    abstract void onEventInternal(SlackMessagePosted event, SlackSession session);
 
 }

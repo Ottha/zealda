@@ -2,12 +2,14 @@ package com.pink.zealda.model;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 public class Quest {
 
     @Id
     public String id;
 
+    @Indexed(unique = true)
     private String name;
     private String description;
     private long expGain;
