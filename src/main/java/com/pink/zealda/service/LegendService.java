@@ -1,7 +1,6 @@
 package com.pink.zealda.service;
 
 import com.pink.zealda.model.Legend;
-import com.pink.zealda.model.Quest;
 import com.pink.zealda.repository.LegendRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +21,7 @@ public class LegendService {
         return legendRepository.save(new Legend(legendName));
     }
 
-
+    public List<Legend> findAll() {
+        return legendRepository.findAll();
+    }
 }
