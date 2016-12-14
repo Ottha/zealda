@@ -53,4 +53,7 @@ public class QuestService {
         }
     }
 
+    public void save(Quest quest) {
+        questRepository.save(quest);
+    }
 }
