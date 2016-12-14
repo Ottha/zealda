@@ -2,7 +2,10 @@ package com.pink.zealda.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pink.zealda.model.Legend;
 import com.pink.zealda.model.Quest;
+import com.pink.zealda.model.QuestOfLegend;
+import com.pink.zealda.repository.QuestOfLegendRepository;
 import com.pink.zealda.repository.QuestRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,9 @@ public class QuestService {
 
     @Autowired
     QuestRepository questRepository;
+
+    @Autowired
+    QuestOfLegendRepository questOfLegendRepository;
 
     public List<Quest> getAllQuests() {
         return questRepository.findAll();
@@ -51,6 +57,13 @@ public class QuestService {
         } catch (IOException e) {
             LOG.error("Could not read file because of: ",e);
         }
+    }
+
+    public QuestOfLegend assignQuestToLegend(Quest quest, Legend legend) {
+        QuestOfLegend questOfLegend = new QuestOfLegend();
+        questOfLegend.setLegendId(legend);
+        questOfLegend.setQuest(quest);
+        return questOfLegendRepository.save(questOfLegend);
     }
 
 }
