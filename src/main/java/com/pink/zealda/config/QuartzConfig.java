@@ -39,21 +39,51 @@ public class QuartzConfig {
 
     @Bean(name = "standupJobTrigger")
     public CronTriggerFactoryBean standupJobTrigger(JobDetail jobDetail) {
-        CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
-        factoryBean.setJobDetail(jobDetail);
-        factoryBean.setCronExpression(quartzProperties.time);
-        return factoryBean;
+        return trigger(jobDetail);
     }
 
     @Bean
-    public SchedulerFactoryBean schedulerFactoryBean(@Qualifier("standupJobTrigger") Trigger standupJobTrigger) {
+    public SchedulerFactoryBean standupSchedulerFactoryBean(@Qualifier("standupJobTrigger") Trigger standupJobTrigger) {
+        return schedulerFactoryBean(standupJobTrigger);
+    }
+
+
+    @Bean(name = "questTrigger")
+    public CronTriggerFactoryBean questTrigger(JobDetail jobDetail) {
+        return trigger(jobDetail);
+    }
+
+    @Bean
+    public SchedulerFactoryBean questSchedulerFactoryBean(@Qualifier("questTrigger") Trigger questTrigger) {
+        return schedulerFactoryBean(questTrigger);
+    }
+
+
+
+
+    private CronTriggerFactoryBean trigger(JobDetail jobDetail) {
+        CronTriggerFactoryBean factoryBean = new CronTriggerFactoryBean();
+        factoryBean.setJobDetail(jobDetail);
+        factoryBean.setCronExpression(createCronExpression(jobDetail));
+        return factoryBean;
+    }
+
+    private String createCronExpression(JobDetail jobDetail) {
+        return quartzProperties.time;
+    }
+
+
+    private SchedulerFactoryBean schedulerFactoryBean(Trigger trigger) {
         SchedulerFactoryBean factoryBean = new SchedulerFactoryBean();
-        factoryBean.setTriggers(standupJobTrigger);
+        factoryBean.setTriggers(trigger);
         // Job factory using Spring DI
         QuartzJobFactory jobFactory = new QuartzJobFactory();
         jobFactory.setApplicationContext(applicationContext);
         factoryBean.setJobFactory(jobFactory);
         return factoryBean;
     }
+
+
+
 
 }
