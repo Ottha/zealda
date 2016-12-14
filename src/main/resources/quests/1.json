@@ -1,0 +1,9 @@
+{
+    "name": "The maiden and me",
+    "description": "Thou shall go to one colleague of yours and acquire a painting of the two of thee!",
+    "expGain": 2,
+    "levelRequired": 0,
+    "category": "Test category",
+    "repeatable": false,
+    "timeframeInMinutes": 1440
+}
