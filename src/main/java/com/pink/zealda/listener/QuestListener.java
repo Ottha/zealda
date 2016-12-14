@@ -36,13 +36,12 @@ public class QuestListener implements SlackMessagePostedListener {
     @Override
     public void onEvent(SlackMessagePosted event, SlackSession session) {
         log.debug("Message Posted: '{}'", event.getMessageContent().toUpperCase());
-        if (event.getSender().getUserName().equals(bot.getId())) {
+        if (event.getSender().getId().equals(bot.getId())) {
             return;
         }
         String normalizedMessage = event.getMessageContent().trim().toUpperCase();
         if (normalizedMessage.contains("QUEST") && normalizedMessage.contains("ALL")) {
             session.sendMessage(event.getChannel(), " Hello " + event.getSender().getUserName() + ". Quests to challenge thee legends are:" + questService.getAllQuests().stream().map(quest -> quest.getName()).collect(Collectors.joining(", ", " :crossed_swords: ", " :crossed_swords: ")), null);
-            session.sendMessage(event.getChannel(), "Does he want to see the quests he can do?", null);
         }
 
     }
