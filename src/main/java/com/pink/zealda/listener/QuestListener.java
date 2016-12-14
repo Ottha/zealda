@@ -30,9 +30,7 @@ public class QuestListener extends AbstractSlackMessagePostedListener{
     @Override
     public void onEventInternal(SlackMessagePosted event, SlackSession session, Legend legend) {
         log.debug("Message Posted: '{}'", event.getMessageContent().toUpperCase());
-        if (event.getSender().getId().equals(bot.getId())) {
-            return;
-        }
+
         String normalizedMessage = event.getMessageContent().trim().toUpperCase();
         List<Quest> allQuests = questService.getAllQuests();
         String userName = event.getSender().getUserName();
@@ -45,16 +43,23 @@ public class QuestListener extends AbstractSlackMessagePostedListener{
             if (quest.isPresent()) {
                 QuestOfLegend questOfLegend = questService.assignQuestToLegend(quest.get(), legend);
                 log.debug("new quest created:" + questOfLegend);
-                String questName = quest.get().getName();
-                session.sendMessage(event.getChannel(), "@" + userName + " Thou shall now try the quest " +  questName, null);
+                questService.sendNewQuestMessage(userName, quest.get());
             } else {
-                session.sendMessage(event.getChannel(), "@" + userName + " Thee could not find the Quest foreign tongue ", null);
+                Quest nextQuest = questOfLegendService.getNextQuestForLegend(legend);
+                questService.assignQuestToLegend(nextQuest, legend);
+                questService.sendNewQuestMessage(userName, nextQuest);
             }
         }
 
         if (normalizedMessage.contains("ASSIGN") && normalizedMessage.contains("ALL")) {
-            questOfLegendService.assignQuestToRandomLegend();
+            questOfLegendService.assignRandomQuestToLegends();
         }
+
+        if (normalizedMessage.contains("FINISH") || normalizedMessage.contains("DONE") || normalizedMessage.contains("DID")) {
+            questOfLegendService.solvePendingQuest(legend);
+        }
+
+
 
 
     }

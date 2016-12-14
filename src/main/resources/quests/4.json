@@ -1,0 +1,9 @@
+{
+    "name": "Cleanup your desk",
+    "description": "Thou shall have a very clean desk",
+    "expGain": 1,
+    "levelRequired": 0,
+    "category": "Test category",
+    "repeatable": false,
+    "timeframeInMinutes": 1440
+}

@@ -1,7 +1,7 @@
 {
     "name": "The Leather and the Table",
     "description": "Thou shall challenge another legend for a game of miniature leather ball kicking!",
-    "expGain": 2,
+    "expGain": 4,
     "levelRequired": 0,
     "category": "Test category",
     "repeatable": false,

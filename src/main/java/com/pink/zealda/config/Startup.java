@@ -1,9 +1,6 @@
 package com.pink.zealda.config;
 
-import com.pink.zealda.listener.HelloListener;
-import com.pink.zealda.listener.LegendLeftListener;
-import com.pink.zealda.listener.LegendListener;
-import com.pink.zealda.listener.QuestListener;
+import com.pink.zealda.listener.*;
 import com.pink.zealda.properties.SlackProperties;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import org.slf4j.Logger;
@@ -34,6 +31,8 @@ public class Startup implements CommandLineRunner {
     LegendLeftListener legendLeftListener;
     @Autowired
     LegendListener legendListener;
+    @Autowired
+    CommandListener commandListener;
 
     @Override
     public void run(String... args) throws Exception {
@@ -41,6 +40,7 @@ public class Startup implements CommandLineRunner {
         log.info("Slack service started with apikey: ..." + slackProperties.key.substring(slackProperties.key.length() - 4));
         slackSession.addMessagePostedListener(helloListener);
         slackSession.addMessagePostedListener(questListener);
+        slackSession.addMessagePostedListener(commandListener);
         slackSession.addGroupJoinedListener(legendListener);
         slackSession.addChannelLeftListener(legendLeftListener);
     }

@@ -4,19 +4,17 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import java.util.List;
-
 /**
  * Created by akraf on 12/14/16.
  */
-@CompoundIndex(name = "questOfLegend", def = "{'legendId': 1, 'quest': 1}")
+@CompoundIndex(name = "questOfLegend", def = "{'legend': 1, 'quest': 1}")
 public class QuestOfLegend {
 
     @Id
     private String id;
 
     @DBRef
-    private Legend legendId;
+    private Legend legend;
     @DBRef
     private Quest quest;
 
@@ -24,12 +22,12 @@ public class QuestOfLegend {
 
     private long startTimeInMillis;
 
-    public Legend getLegendId() {
-        return legendId;
+    public Legend getLegend() {
+        return legend;
     }
 
-    public void setLegendId(Legend legendId) {
-        this.legendId = legendId;
+    public void setLegend(Legend legend) {
+        this.legend = legend;
     }
 
     public Quest getQuest() {

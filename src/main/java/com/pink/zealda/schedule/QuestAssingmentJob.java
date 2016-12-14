@@ -2,10 +2,8 @@ package com.pink.zealda.schedule;
 
 import com.pink.zealda.listener.QuestListener;
 import com.pink.zealda.model.QuestOfLegend;
-import com.pink.zealda.service.LegendService;
 import com.pink.zealda.service.QuestOfLegendService;
 import com.pink.zealda.service.SlackService;
-import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -42,8 +40,8 @@ public class QuestAssingmentJob extends QuartzJobBean {
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         log.info("executed job to assign quests to legends");
-        List<QuestOfLegend> questOfLegends = questOfLegendService.assignQuestToRandomLegend();
-        questOfLegends.forEach((qol) -> slackService.sendMessageToUser(qol.getQuest().getName(), qol.getLegendId().getName()));
+        List<QuestOfLegend> questOfLegends = questOfLegendService.assignRandomQuestToLegends();
+        questOfLegends.forEach((qol) -> questOfLegendService.sendNewQuestOfLegendMessage(qol));
     }
 
     /**

@@ -1,0 +1,9 @@
+{
+    "name": "The give kudo",
+    "description": "Thou shall create a kudo card for a colleague!",
+    "expGain": 3,
+    "levelRequired": 0,
+    "category": "Test category",
+    "repeatable": false,
+    "timeframeInMinutes": 1440
+}

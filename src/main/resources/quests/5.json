@@ -1,0 +1,9 @@
+{
+    "name": "Talk out loud",
+    "description": "Thou shall should out to all the people in your room: SIRIIIIIII",
+    "expGain": 10,
+    "levelRequired": 0,
+    "category": "Test category",
+    "repeatable": false,
+    "timeframeInMinutes": 1440
+}
